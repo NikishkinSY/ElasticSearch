@@ -1,4 +1,4 @@
-﻿using ES.Domain.Entities;
+﻿using ES.Infrastructure.ElasticSearch.Entities;
 using Nest;
 
 namespace ES.Infrastructure.ElasticSearch.Extensions
@@ -26,7 +26,7 @@ namespace ES.Infrastructure.ElasticSearch.Extensions
                             )
                     )
                 )
-                .Map<Property>(m => m
+                .Map<PropertyES>(m => m
                     .Properties(pr => pr
                         .Scalar(s => s.Id)
                         .Text(t => t
@@ -35,6 +35,14 @@ namespace ES.Infrastructure.ElasticSearch.Extensions
                         )
                         .Text(t => t
                             .Name(n => n.FormerName)
+                            .Analyzer("main_analyzer")
+                        )
+                        .Text(t => t
+                            .Name(n => n.StreetAddress)
+                            .Analyzer("main_analyzer")
+                        )
+                        .Text(t => t
+                            .Name(n => n.City)
                             .Analyzer("main_analyzer")
                         )
                         .Keyword(k => k

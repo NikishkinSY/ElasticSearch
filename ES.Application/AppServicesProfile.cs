@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using ES.Domain.Entities;
+using ES.Infrastructure.ElasticSearch.Entities;
 
 namespace ES.Application
 {
@@ -6,6 +8,8 @@ namespace ES.Application
     {
         public AppServicesProfile()
         {
+            CreateMap<Management, ManagementES>().ReverseMap();
+            CreateMap<Property, PropertyES>().ReverseMap();
         }
     }
 }

@@ -8,10 +8,11 @@ namespace ES.Infrastructure.ElasticSearch.Extensions
         public static ICollection<QueryContainer> AddMatch(this ICollection<QueryContainer> containers,
             string field,
             string query,
-            Operator? @operator = null,
+            Operator? @operator = default,
             MinimumShouldMatch minimumShouldMatch = default,
-            double? boost = null,
-            bool autoGenerateSynonymsPhraseQuery = true)
+            double? boost = default,
+            bool? autoGenerateSynonymsPhraseQuery = default,
+            bool? fuzzyTranspositions = default)
         {
             containers.Add(new MatchQuery
             {
@@ -21,7 +22,7 @@ namespace ES.Infrastructure.ElasticSearch.Extensions
                 MinimumShouldMatch = minimumShouldMatch,
                 Boost = boost,
                 AutoGenerateSynonymsPhraseQuery = autoGenerateSynonymsPhraseQuery,
-                FuzzyTranspositions = false
+                FuzzyTranspositions = fuzzyTranspositions
             });
 
             return containers;
@@ -30,8 +31,8 @@ namespace ES.Infrastructure.ElasticSearch.Extensions
         public static ICollection<QueryContainer> AddMatchPhrase(this ICollection<QueryContainer> containers,
             string field,
             string query,
-            int? slop = null,
-            double? boost = null)
+            int? slop = default,
+            double? boost = default)
         {
             containers.Add(new MatchPhraseQuery
             {
@@ -39,6 +40,31 @@ namespace ES.Infrastructure.ElasticSearch.Extensions
                 Query = query,
                 Slop = slop,
                 Boost = boost
+            });
+
+            return containers;
+        }
+
+        public static ICollection<QueryContainer> AddMultiMatch(this ICollection<QueryContainer> containers,
+            string[] fields,
+            string query,
+            TextQueryType @type = TextQueryType.BestFields,
+            Operator? @operator = default,
+            MinimumShouldMatch minimumShouldMatch = default,
+            double? boost = default,
+            bool? autoGenerateSynonymsPhraseQuery = default,
+            bool? fuzzyTranspositions = default)
+        {
+            containers.Add(new MultiMatchQuery
+            {
+                Fields = fields,
+                Query = query,
+                Operator = @operator,
+                Type = @type,
+                MinimumShouldMatch = minimumShouldMatch,
+                AutoGenerateSynonymsPhraseQuery = autoGenerateSynonymsPhraseQuery,
+                Boost = boost,
+                FuzzyTranspositions = fuzzyTranspositions
             });
 
             return containers;

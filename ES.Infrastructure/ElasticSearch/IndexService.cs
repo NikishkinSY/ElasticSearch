@@ -1,7 +1,7 @@
 ﻿using ElasticsearchRecipes.Elastic;
-using ES.Domain.Entities;
 using ES.Domain.Enums;
 using ES.Domain.Exceptions;
+using ES.Infrastructure.ElasticSearch.Entities;
 using ES.Infrastructure.ElasticSearch.Extensions;
 using ES.Infrastructure.ElasticSearch.Interfaces;
 using Nest;
@@ -29,17 +29,17 @@ namespace ES.Infrastructure.ElasticSearch
 
         public async Task<bool> IndexDocuments(IndexType type, string json, CancellationToken ct = default)
         {
-            var items = new List<SearchItem>();
+            var items = new List<object>();
             switch (type)
             {
                 case IndexType.Management:
-                    items.AddRange(JsonConvert.DeserializeObject<List<Management>>(json));
+                    items.AddRange(JsonConvert.DeserializeObject<List<ManagementES>>(json));
                     break;
                 case IndexType.Property:
-                    items.AddRange(JsonConvert.DeserializeObject<List<Property>>(json));
+                    items.AddRange(JsonConvert.DeserializeObject<List<PropertyES>>(json));
                     break;
             }
-
+            
             var response = await _elasticClient.IndexManyAsync(items, type.ToString().ToLower(), ct);
             return ErrorHandler(response);
         }

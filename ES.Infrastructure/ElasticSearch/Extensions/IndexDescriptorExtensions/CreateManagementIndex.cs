@@ -1,4 +1,4 @@
-﻿using ES.Domain.Entities;
+﻿using ES.Infrastructure.ElasticSearch.Entities;
 using Nest;
 
 namespace ES.Infrastructure.ElasticSearch
@@ -26,7 +26,7 @@ namespace ES.Infrastructure.ElasticSearch
                             )
                     )
                 )
-                .Map<Management>(m => m
+                .Map<ManagementES>(m => m
                     .Properties(pr => pr
                         .Scalar(s => s.Id)
                         .Text(t => t

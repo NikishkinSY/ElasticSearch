@@ -1,10 +1,6 @@
-﻿using Newtonsoft.Json;
-
-namespace ES.Domain.Entities
+﻿namespace ES.Domain.Entities
 {
-    public class Management: SearchItem
+    public class Management: BaseItem
     {
-        [JsonProperty("mgmtID")]
-        public int Id { get; set; }
     }
 }

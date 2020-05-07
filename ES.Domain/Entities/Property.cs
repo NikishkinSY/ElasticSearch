@@ -1,11 +1,7 @@
-﻿using Newtonsoft.Json;
-
-namespace ES.Domain.Entities
+﻿namespace ES.Domain.Entities
 {
-    public class Property: SearchItem
+    public class Property: BaseItem
     {
-        [JsonProperty("propertyID")]
-        public int Id { get; set; }
         public string FormerName { get; set; }
         public string StreetAddress { get; set; }
         public string City { get; set; }
