@@ -1,5 +1,4 @@
-﻿using Elasticsearch.Net;
-using ElasticsearchRecipes.Elastic;
+﻿using ElasticsearchRecipes.Elastic;
 using ES.Application.Services.Interfaces;
 using ES.Domain.Configuration;
 using ES.Domain.Entities;
@@ -7,7 +6,6 @@ using ES.Domain.Enums;
 using ES.Domain.Extensions;
 using ES.Infrastructure.ElasticSearch;
 using ES.Infrastructure.ElasticSearch.Extensions;
-using ES.Infrastructure.ElasticSearch.Interfaces;
 using Microsoft.Extensions.Options;
 using Nest;
 using System.Collections.Generic;
@@ -19,24 +17,18 @@ namespace ES.Application.Services
 {
     public class SearchService: ISearchService
     {
-        private readonly IPropertyService _propertyService;
-        private readonly IManagementService _managementService;
         private readonly ElasticSearchSettings _settings;
         private readonly ElasticClient _elasticClient;
 
         public SearchService(
-            IPropertyService propertyService,
-            IManagementService managementService,
             IOptions<ElasticSearchSettings> settings,
             ElasticClientProvider provider)
         {
-            _propertyService = propertyService;
-            _managementService = managementService;
             _settings = settings.Value;
             _elasticClient = provider.Get();
         }
 
-        public async Task<IEnumerable<SearchItem>> SearchAsync(string query, string market, string state, CancellationToken ct)
+        public async Task<IEnumerable<SearchItem>> SearchAsync(string query, string market, string state, CancellationToken ct = default)
         {
             var request = new SearchRequestBuilder<SearchItem>()
                 .Build(Indices.Index(IndexType.Management.ToString().ToLower()).And(IndexType.Property.ToString().ToLower()))

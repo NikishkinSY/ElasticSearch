@@ -1,10 +1,5 @@
 ﻿using ES.Application.Services.Interfaces;
-using ES.Domain.Entities;
-using ES.Domain.Enums;
-using ES.Infrastructure.ElasticSearch.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Nest;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace ES.WebApi.Controllers.V1
@@ -15,12 +10,9 @@ namespace ES.WebApi.Controllers.V1
     [ApiController]
     public class SearchController : ControllerBase
     {
-        private readonly IIndexService _indexService;
-        private readonly IManagementService _managementService;
         private readonly ISearchService _searchService;
 
-        public SearchController(
-            ISearchService searchService)
+        public SearchController(ISearchService searchService)
         {
             _searchService = searchService;
         }
@@ -29,10 +21,9 @@ namespace ES.WebApi.Controllers.V1
         public async Task<IActionResult> Search(
             [FromQuery] string query,
             [FromQuery] string market = null,
-            [FromQuery] string state = null,
-            CancellationToken ct)
+            [FromQuery] string state = null)
         {
-            var result = await _searchService.SearchAsync(query, market, state, ct);
+            var result = await _searchService.SearchAsync(query, market, state, HttpContext.RequestAborted);
             return Ok(result);
         }
     }
