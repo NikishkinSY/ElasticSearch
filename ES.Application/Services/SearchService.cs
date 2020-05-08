@@ -80,7 +80,7 @@ namespace ES.Application.Services
             var response = await _elasticClient.SearchAsync<object>(request, ct);
             if (!response.IsValid)
             {
-                throw new ElasticSearchException(response.ServerError.Error.Reason);
+                throw new ElasticSearchException(response.ServerError?.Error?.Reason, response.OriginalException);
             }
 
             var result = new List<BaseItem>();

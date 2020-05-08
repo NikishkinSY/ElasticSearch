@@ -7,5 +7,9 @@ namespace ES.Domain.Exceptions
         public ElasticSearchException(string message)
             : base(message)
         { }
+
+        public ElasticSearchException(string message, Exception ex)
+            : base(message, ex)
+        { }
     }
 }
