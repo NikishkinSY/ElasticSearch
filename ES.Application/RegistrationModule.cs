@@ -9,6 +9,7 @@ namespace ES.Application
         public static IServiceCollection RegisterApplicationModule(this IServiceCollection services)
         {
             return services
+                .AddScoped<IIndexService, IndexService>()
                 .AddScoped<ISearchService, SearchService>();
         }
     }

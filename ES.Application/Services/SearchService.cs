@@ -1,16 +1,14 @@
 ﻿using AutoMapper;
 using Elasticsearch.Net;
 using ElasticsearchRecipes.Elastic;
+using ES.Application.ElasticSearch.Entities;
 using ES.Application.Services.Interfaces;
-using ES.Domain.Configuration;
 using ES.Domain.Entities;
 using ES.Domain.Enums;
 using ES.Domain.Exceptions;
 using ES.Domain.Extensions;
 using ES.Infrastructure.ElasticSearch;
-using ES.Infrastructure.ElasticSearch.Entities;
 using ES.Infrastructure.ElasticSearch.Extensions;
-using Microsoft.Extensions.Options;
 using Nest;
 using System.Collections.Generic;
 using System.Linq;

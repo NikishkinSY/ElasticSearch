@@ -1,7 +1,7 @@
 ﻿using Nest;
 using Newtonsoft.Json;
 
-namespace ES.Infrastructure.ElasticSearch.Entities
+namespace ES.Application.ElasticSearch.Entities
 {
     [ElasticsearchType(IdProperty = nameof(ESId))]
     public class PropertyES: IESEntity

@@ -1,11 +1,11 @@
-﻿using ES.Infrastructure.ElasticSearch.Entities;
+﻿using ES.Application.ElasticSearch.Entities;
 using Nest;
 
-namespace ES.Infrastructure.ElasticSearch
+namespace ES.Application.ElasticSearch.CreateIndexExtensions
 {
-    public static class CreateManagementIndex
+    public static class CreatePropertyIndex
     {
-        public static CreateIndexDescriptor CreateManagementIndexSettingAndMapping(this CreateIndexDescriptor indexDescriptor)
+        public static CreateIndexDescriptor CreatePopertyIndexSettingAndMapping(this CreateIndexDescriptor indexDescriptor)
         {
             indexDescriptor.Settings(s => s
                     .Setting("index.codec", "best_compression")
@@ -26,11 +26,23 @@ namespace ES.Infrastructure.ElasticSearch
                             )
                     )
                 )
-                .Map<ManagementES>(m => m
+                .Map<PropertyES>(m => m
                     .Properties(pr => pr
                         .Scalar(s => s.Id)
                         .Text(t => t
                             .Name(n => n.Name)
+                            .Analyzer("main_analyzer")
+                        )
+                        .Text(t => t
+                            .Name(n => n.FormerName)
+                            .Analyzer("main_analyzer")
+                        )
+                        .Text(t => t
+                            .Name(n => n.StreetAddress)
+                            .Analyzer("main_analyzer")
+                        )
+                        .Text(t => t
+                            .Name(n => n.City)
                             .Analyzer("main_analyzer")
                         )
                         .Keyword(k => k

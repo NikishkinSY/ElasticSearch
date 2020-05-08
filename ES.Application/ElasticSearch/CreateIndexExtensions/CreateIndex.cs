@@ -1,7 +1,7 @@
 ﻿using ES.Domain.Enums;
 using Nest;
 
-namespace ES.Infrastructure.ElasticSearch.Extensions
+namespace ES.Application.ElasticSearch.CreateIndexExtensions
 {
     public static class CreateIndex
     {

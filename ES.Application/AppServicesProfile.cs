@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using ES.Application.ElasticSearch.Entities;
 using ES.Domain.Entities;
-using ES.Infrastructure.ElasticSearch.Entities;
 
 namespace ES.Application
 {

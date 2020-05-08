@@ -1,16 +1,15 @@
 ﻿using ElasticsearchRecipes.Elastic;
+using ES.Application.ElasticSearch.CreateIndexExtensions;
+using ES.Application.ElasticSearch.Entities;
 using ES.Domain.Enums;
 using ES.Domain.Exceptions;
-using ES.Infrastructure.ElasticSearch.Entities;
-using ES.Infrastructure.ElasticSearch.Extensions;
-using ES.Infrastructure.ElasticSearch.Interfaces;
 using Nest;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ES.Infrastructure.ElasticSearch
+namespace ES.Application.Services.Interfaces
 {
     public class IndexService: IIndexService
     {

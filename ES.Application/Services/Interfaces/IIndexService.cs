@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ES.Infrastructure.ElasticSearch.Interfaces
+namespace ES.Application.Services.Interfaces
 {
     public interface IIndexService
     {

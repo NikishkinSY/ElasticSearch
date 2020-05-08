@@ -1,5 +1,5 @@
-﻿using ES.Domain.Enums;
-using ES.Infrastructure.ElasticSearch.Interfaces;
+﻿using ES.Application.Services.Interfaces;
+using ES.Domain.Enums;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -8,7 +8,7 @@ namespace ES.WebApi.Controllers.V1
 {
     //[ApiVersion("1")]
     //[Route("api/v{version:apiVersion}/index")]
-    [Authorize]
+    //[Authorize]
     [Route("api/index")]
     [ApiController]
     public class IndexController: ControllerBase
