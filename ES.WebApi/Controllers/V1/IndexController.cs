@@ -8,7 +8,7 @@ namespace ES.WebApi.Controllers.V1
 {
     //[ApiVersion("1")]
     //[Route("api/v{version:apiVersion}/index")]
-    //[Authorize]
+    [Authorize]
     [Route("api/index")]
     [ApiController]
     public class IndexController: ControllerBase
