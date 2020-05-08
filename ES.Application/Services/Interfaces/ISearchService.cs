@@ -7,6 +7,6 @@ namespace ES.Application.Services.Interfaces
 {
     public interface ISearchService
     {
-        Task<IEnumerable<BaseItem>> SearchAsync(string query, string market, string state, CancellationToken ct);
+        Task<IEnumerable<BaseItem>> SearchAsync(string query, ICollection<string> markets, ICollection<string> states, int size, CancellationToken ct);
     }
 }

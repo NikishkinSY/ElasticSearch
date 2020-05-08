@@ -1,14 +1,15 @@
 ﻿using ES.Application.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace ES.WebApi.Controllers.V1
 {
     //[ApiVersion("1")]
     //[Route("api/v{version:apiVersion}/index")]
-    [Authorize]
-    [Route("api/index")]
+    //[Authorize]
+    [Route("api/search")]
     [ApiController]
     public class SearchController : ControllerBase
     {
@@ -19,13 +20,14 @@ namespace ES.WebApi.Controllers.V1
             _searchService = searchService;
         }
 
-        [HttpGet("search")]
+        [HttpGet]
         public async Task<IActionResult> Search(
             [FromQuery] string query,
-            [FromQuery] string market = null,
-            [FromQuery] string state = null)
+            [FromQuery] ICollection<string> markets = default,
+            [FromQuery] ICollection<string> states = default,
+            [FromQuery] int size = 25)
         {
-            var result = await _searchService.SearchAsync(query, market, state, HttpContext.RequestAborted);
+            var result = await _searchService.SearchAsync(query, markets, states, size, HttpContext.RequestAborted);
             return Ok(result);
         }
     }

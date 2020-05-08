@@ -1,7 +1,6 @@
 ﻿using Nest;
-using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace ES.Infrastructure.ElasticSearch.Extensions
 {
@@ -16,6 +15,26 @@ namespace ES.Infrastructure.ElasticSearch.Extensions
             {
                 Field = field,
                 Value = term,
+                Boost = boost
+            });
+
+            return queryContainers;
+        }
+
+        public static ICollection<QueryContainer> AddTerms<T>(this ICollection<QueryContainer> queryContainers,
+            string field,
+            ICollection<T> terms,
+            double? boost = null)
+        {
+            if (terms == null || terms.Count == 0)
+            {
+                return queryContainers;
+            }
+
+            queryContainers.Add(new TermsQuery
+            {
+                Field = field,
+                Terms = terms.Select(id => (object)id),
                 Boost = boost
             });
 

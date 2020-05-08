@@ -12,6 +12,7 @@ using ES.Infrastructure.ElasticSearch.Extensions;
 using Microsoft.Extensions.Options;
 using Nest;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,25 +20,27 @@ namespace ES.Application.Services
 {
     public class SearchService: ISearchService
     {
-        private readonly ElasticSearchSettings _settings;
         private readonly ElasticClient _elasticClient;
         private readonly IMapper _mapper;
 
         public SearchService(
-            IOptions<ElasticSearchSettings> settings,
             ElasticClientProvider provider,
             IMapper mapper)
         {
-            _settings = settings.Value;
             _elasticClient = provider.Get();
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<BaseItem>> SearchAsync(string query, string market, string state, CancellationToken ct = default)
+        public async Task<IEnumerable<BaseItem>> SearchAsync(
+            string query, 
+            ICollection<string> markets, 
+            ICollection<string> states, 
+            int size, 
+            CancellationToken ct = default)
         {
             var request = new SearchRequestBuilder<BaseItem>()
                 .Build(Indices.Index(IndexType.Management.ToString().ToLower()).And(IndexType.Property.ToString().ToLower()))
-                .SetSize(_settings.Size)
+                .SetSize(size)
                 .GetRequest();
 
             // search
@@ -47,20 +50,22 @@ namespace ES.Application.Services
                     nameof(PropertyES.FormerName).ToCamelCase(),
                     nameof(PropertyES.StreetAddress).ToCamelCase(),
                     nameof(PropertyES.City).ToCamelCase()
-                }, query)
+                }, query, fuzzyTranspositions: true)
                 .AddMatchPhrase(nameof(PropertyES.Name).ToCamelCase(), query, boost: 10)
                 .AddMatchPhrase(nameof(PropertyES.FormerName).ToCamelCase(), query, boost: 10);
 
             // filter
             var filterQueryContainers = new List<QueryContainer>();
-            if (!string.IsNullOrWhiteSpace(market))
+            markets = markets.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+            if (markets.Any())
             {
-                filterQueryContainers.AddTerm(nameof(PropertyES.Market).ToCamelCase(), market);
+                filterQueryContainers.AddTerms(nameof(PropertyES.Market).ToCamelCase(), markets);
             }
 
-            if (!string.IsNullOrWhiteSpace(state))
+            states = states.Where(x => !string.IsNullOrWhiteSpace(x)).ToList();
+            if (states.Any())
             {
-                filterQueryContainers.AddTerm(nameof(PropertyES.State).ToCamelCase(), state);
+                filterQueryContainers.AddTerms(nameof(PropertyES.State).ToCamelCase(), states);
             }
 
             request.Query = new BoolQuery()

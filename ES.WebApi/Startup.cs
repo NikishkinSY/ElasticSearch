@@ -43,11 +43,10 @@ namespace DistanceBetweenAirports
             services.AddMemoryCache();
 
             // configure strongly typed settings objects
-            var appSettingsSection = Configuration.GetSection("AppSettings");
-            services.Configure<AppSettings>(appSettingsSection);
-
             var elasticSearchSection = Configuration.GetSection("ElasticSearch");
             services.Configure<ElasticSearchSettings>(elasticSearchSection);
+            var awsSection = Configuration.GetSection("AWS");
+            services.Configure<AWSSettings>(awsSection);
 
             services.AddSwaggerGen(c =>
             {
