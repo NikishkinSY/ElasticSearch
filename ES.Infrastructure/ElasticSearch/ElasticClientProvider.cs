@@ -32,23 +32,28 @@ namespace ElasticsearchRecipes.Elastic
         {
             if (_client == null)
             {
-                var chain = new CredentialProfileStoreChain(_awsSettings.AWSProfilesLocation);
-                if (chain.TryGetAWSCredentials(_awsSettings.AWSProfileName, out AWSCredentials awsCredentials))
-                {
-                    var httpConnection = new AwsHttpConnection(awsCredentials, RegionEndpoint.USEast2);
-                    var pool = new StaticConnectionPool(_esSettings.Url.Split(',').Select(p => new Uri(p)));
-                    var connection = new ConnectionSettings(pool, httpConnection,
-                        sourceSerializer: (b, s) => new JsonNetSerializer(b, s,
-                            () => new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All }));
-                    _client = new ElasticClient(connection);// Use awsCredentials
-                }
-                else
-                {
-                    throw new NotFoundException("File with aws credentilas not found");
-                }
+                var httpConnection = GetConnection();
+                var pool = new StaticConnectionPool(_esSettings.Url.Split(',').Select(p => new Uri(p)));
+                var connection = new ConnectionSettings(pool, httpConnection,
+                    sourceSerializer: (b, s) => new JsonNetSerializer(b, s,
+                        () => new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All }));
+                _client = new ElasticClient(connection);
             }
 
             return _client;
+        }
+
+        private IConnection GetConnection()
+        {
+            var chain = new CredentialProfileStoreChain(_awsSettings.AWSProfilesLocation);
+            if (chain.TryGetAWSCredentials(_awsSettings.AWSProfileName, out AWSCredentials awsCredentials))
+            {
+                return new AwsHttpConnection(awsCredentials, RegionEndpoint.GetBySystemName(_awsSettings.RegionEndpoint));
+            }
+            else
+            {
+                throw new NotFoundException("File with aws credentilas not found");
+            }
         }
     }
 }

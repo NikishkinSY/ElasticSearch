@@ -5,6 +5,7 @@ using ES.Application.Services.Interfaces;
 using ES.Domain.Configuration;
 using ES.Domain.Entities;
 using ES.Domain.Enums;
+using ES.Domain.Exceptions;
 using ES.Domain.Extensions;
 using ES.Infrastructure.ElasticSearch;
 using ES.Infrastructure.ElasticSearch.Entities;
@@ -75,9 +76,14 @@ namespace ES.Application.Services
                 MinimumShouldMatch = 1
             };
 
+            // get json request to use in kibana
             //var json = _elasticClient.RequestResponseSerializer.SerializeToString(request);
 
             var response = await _elasticClient.SearchAsync<object>(request, ct);
+            if (!response.IsValid)
+            {
+                throw new ElasticSearchException(response.ServerError.Error.Reason);
+            }
 
             var result = new List<BaseItem>();
             foreach (var doc in response.Documents)
