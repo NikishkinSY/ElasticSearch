@@ -1,10 +1,6 @@
-﻿using Amazon;
-using Amazon.Runtime;
-using Amazon.Runtime.CredentialManagement;
-using Elasticsearch.Net;
-using Elasticsearch.Net.Aws;
+﻿using Elasticsearch.Net;
 using ES.Domain.Configuration;
-using ES.Domain.Exceptions;
+using ES.Infrastructure.AWS;
 using Microsoft.Extensions.Options;
 using Nest;
 using Nest.JsonNetSerializer;
@@ -18,21 +14,21 @@ namespace ElasticsearchRecipes.Elastic
     {
         private ElasticClient _client { get; set; }
         private ElasticSearchSettings _esSettings { get; set; }
-        private AWSSettings _awsSettings { get; set; }
+        private AWSConnectionProvider _awsProvider { get; set; }
 
         public ElasticClientProvider(
             IOptions<ElasticSearchSettings> esSettings,
-            IOptions<AWSSettings> awsSettings)
+            AWSConnectionProvider awsProvider)
         {
             _esSettings = esSettings.Value;
-            _awsSettings = awsSettings.Value;
+            _awsProvider = awsProvider;
         }
 
         public ElasticClient Get()
         {
             if (_client == null)
             {
-                var httpConnection = GetConnection();
+                var httpConnection = _awsProvider.Get();
                 var pool = new StaticConnectionPool(_esSettings.Url.Split(',').Select(p => new Uri(p)));
                 var connection = new ConnectionSettings(pool, httpConnection,
                     sourceSerializer: (b, s) => new JsonNetSerializer(b, s,
@@ -41,19 +37,6 @@ namespace ElasticsearchRecipes.Elastic
             }
 
             return _client;
-        }
-
-        private IConnection GetConnection()
-        {
-            var chain = new CredentialProfileStoreChain(_awsSettings.AWSProfilesLocation);
-            if (chain.TryGetAWSCredentials(_awsSettings.AWSProfileName, out AWSCredentials awsCredentials))
-            {
-                return new AwsHttpConnection(awsCredentials, RegionEndpoint.GetBySystemName(_awsSettings.RegionEndpoint));
-            }
-            else
-            {
-                throw new NotFoundException("File with aws credentilas not found");
-            }
         }
     }
 }

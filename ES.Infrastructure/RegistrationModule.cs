@@ -1,4 +1,5 @@
 ﻿using ElasticsearchRecipes.Elastic;
+using ES.Infrastructure.AWS;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ES.Infrastructure
@@ -8,6 +9,7 @@ namespace ES.Infrastructure
         public static IServiceCollection RegisterInfrastructureModule(this IServiceCollection services)
         {
             return services
+                .AddScoped<AWSConnectionProvider>()
                 .AddScoped<ElasticClientProvider>();
         }
     }
