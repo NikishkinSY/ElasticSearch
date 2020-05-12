@@ -15,9 +15,10 @@ namespace ES.Application.Services.Interfaces
     {
         private readonly ElasticClient _elasticClient;
 
-        public IndexService(ElasticClientProvider provider)
+        public IndexService(ElasticConnectionProvider provider)
         {
-            _elasticClient = provider.Get();
+            var connection = provider.Get();
+            _elasticClient = new ElasticClient(connection);
         }
 
         public async Task<bool> CreateIndex(IndexType type, CancellationToken ct = default)

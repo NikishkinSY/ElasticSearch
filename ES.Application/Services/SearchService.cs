@@ -23,10 +23,11 @@ namespace ES.Application.Services
         private readonly IMapper _mapper;
 
         public SearchService(
-            ElasticClientProvider provider,
+            ElasticConnectionProvider provider,
             IMapper mapper)
         {
-            _elasticClient = provider.Get();
+            var connection = provider.Get();
+            _elasticClient = new ElasticClient(connection);
             _mapper = mapper;
         }
 
