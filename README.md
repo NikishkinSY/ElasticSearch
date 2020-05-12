@@ -2,12 +2,12 @@
 
 REST Service with best practice based on:
 
-.Net Core 3.1 
+- .Net Core 3.1 
 
-ElasticSearch 7.4 (NEST)
+- ElasticSearch 7.4 (NEST)
 
-AWS
+- AWS
 
-Auth0
+- Auth0
 
-Swagger
+- Swagger
