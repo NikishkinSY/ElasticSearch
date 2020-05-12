@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using System.Text.Json.Serialization;
 
 namespace DistanceBetweenAirports
@@ -62,7 +63,7 @@ namespace DistanceBetweenAirports
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, SerilogConfiguration serilogConfiguration)
         {
             if (env.IsDevelopment())
             {
@@ -80,7 +81,9 @@ namespace DistanceBetweenAirports
                 endpoints.MapControllers();
             });
 
-            loggerFactory.AddFile("Logs/{Date}.txt");
+            //loggerFactory.AddFile("Logs/{Date}.txt");
+            loggerFactory.AddSerilog();
+            serilogConfiguration.UseElasticSearch();
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

@@ -26,7 +26,7 @@ namespace ES.Application.Services
             ElasticConnectionProvider provider,
             IMapper mapper)
         {
-            var connection = provider.Get();
+            var connection = provider.GetConnectionSettings();
             _elasticClient = new ElasticClient(connection);
             _mapper = mapper;
         }

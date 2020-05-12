@@ -17,7 +17,7 @@ namespace ES.Application.Services.Interfaces
 
         public IndexService(ElasticConnectionProvider provider)
         {
-            var connection = provider.Get();
+            var connection = provider.GetConnectionSettings();
             _elasticClient = new ElasticClient(connection);
         }
 

@@ -10,7 +10,8 @@ namespace ES.Infrastructure
         {
             return services
                 .AddScoped<AWSConnectionProvider>()
-                .AddScoped<ElasticConnectionProvider>();
+                .AddScoped<ElasticConnectionProvider>()
+                .AddScoped<SerilogConfiguration>();
         }
     }
 }

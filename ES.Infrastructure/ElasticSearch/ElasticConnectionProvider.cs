@@ -23,13 +23,20 @@ namespace ElasticsearchRecipes.Elastic
             _awsProvider = awsProvider;
         }
 
-        public ConnectionSettings Get()
+        public ConnectionSettings GetConnectionSettings()
         {
             var httpConnection = _awsProvider.Get();
             var pool = new StaticConnectionPool(_esSettings.Url.Split(',').Select(p => new Uri(p)));
             return new ConnectionSettings(pool, httpConnection,
                 sourceSerializer: (b, s) => new JsonNetSerializer(b, s,
                     () => new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All }));
+        }
+
+        public ConnectionConfiguration GetConnectionConfiguration()
+        {
+            var httpConnection = _awsProvider.Get();
+            var pool = new StaticConnectionPool(_esSettings.Url.Split(',').Select(p => new Uri(p)));
+            return new ConnectionConfiguration(pool, httpConnection);
         }
     }
 }
