@@ -11,3 +11,7 @@ REST Service with best practice based on:
 - Auth0
 
 - Swagger
+
+- Serilog -> ELK
+
+- Docker support
