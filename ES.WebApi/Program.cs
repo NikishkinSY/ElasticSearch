@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using System.Net;
 
 namespace DistanceBetweenAirports
 {
@@ -14,7 +15,12 @@ namespace DistanceBetweenAirports
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder
+                    .UseStartup<Startup>()
+                    .UseKestrel(options =>
+                    {
+                        options.Listen(IPAddress.Any, 8080);
+                    });
                 });
     }
 }

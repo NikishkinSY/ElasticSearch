@@ -35,4 +35,5 @@ msbuild.wrn
 
 # Visual Studio 2015
 .vs/
-DBA.WebApi/Logs
+ES.WebApi/Logs
+ES.WebApi/webapi
