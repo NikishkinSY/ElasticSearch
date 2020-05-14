@@ -15,3 +15,5 @@ REST Service with best practice based on:
 - Serilog -> ELK
 
 - Docker support
+
+- Automapper
