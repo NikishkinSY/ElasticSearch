@@ -1,19 +1,20 @@
 ﻿using ElasticsearchRecipes.Elastic;
+using ES.Infrastructure.ElasticSearch.Interfaces;
 using Nest;
 
 namespace ES.Infrastructure.ElasticSearch
 {
-    public class ElasticClientProvider
+    public class ElasticClientProvider: IElasticClientProvider
     {
-        private readonly ElasticConnectionProvider _provider;
+        private readonly IElasticConnectionProvider _provider;
         private ElasticClient _client { get; set; }
 
-        public ElasticClientProvider(ElasticConnectionProvider provider)
+        public ElasticClientProvider(IElasticConnectionProvider provider)
         {
             _provider = provider;
         }
 
-        public ElasticClient Get()
+        public IElasticClient Get()
         {
             if (_client == null)
             {

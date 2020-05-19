@@ -5,11 +5,12 @@ using Elasticsearch.Net;
 using Elasticsearch.Net.Aws;
 using ES.Domain.Configuration;
 using ES.Domain.Exceptions;
+using ES.Infrastructure.AWS.Interfaces;
 using Microsoft.Extensions.Options;
 
 namespace ES.Infrastructure.AWS
 {
-    public class AWSConnectionProvider
+    public class AWSConnectionProvider: IAWSConnectionProvider
     {
         private AWSSettings _awsSettings { get; set; }
 

@@ -1,4 +1,4 @@
-﻿using ElasticsearchRecipes.Elastic;
+﻿using ES.Infrastructure.ElasticSearch.Interfaces;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
 
@@ -6,9 +6,9 @@ namespace ES.Infrastructure
 {
     public class SerilogConfiguration
     {
-        private readonly ElasticConnectionProvider _elasticConnectionProvider;
+        private readonly IElasticConnectionProvider _elasticConnectionProvider;
 
-        public SerilogConfiguration(ElasticConnectionProvider elasticConnectionProvider)
+        public SerilogConfiguration(IElasticConnectionProvider elasticConnectionProvider)
         {
             _elasticConnectionProvider = elasticConnectionProvider;
         }

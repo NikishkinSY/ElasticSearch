@@ -1,6 +1,8 @@
 ﻿using ElasticsearchRecipes.Elastic;
 using ES.Infrastructure.AWS;
+using ES.Infrastructure.AWS.Interfaces;
 using ES.Infrastructure.ElasticSearch;
+using ES.Infrastructure.ElasticSearch.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ES.Infrastructure
@@ -10,10 +12,10 @@ namespace ES.Infrastructure
         public static IServiceCollection RegisterInfrastructureModule(this IServiceCollection services)
         {
             return services
-                .AddTransient<AWSConnectionProvider>()
+                .AddTransient<IAWSConnectionProvider, AWSConnectionProvider>()
                 .AddTransient<SerilogConfiguration>()
-                .AddTransient<ElasticConnectionProvider>()
-                .AddSingleton<ElasticClientProvider>();
+                .AddTransient<IElasticConnectionProvider, ElasticConnectionProvider>()
+                .AddSingleton<IElasticClientProvider, ElasticClientProvider>();
         }
     }
 }

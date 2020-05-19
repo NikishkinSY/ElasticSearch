@@ -1,6 +1,8 @@
 ﻿using Elasticsearch.Net;
 using ES.Domain.Configuration;
 using ES.Infrastructure.AWS;
+using ES.Infrastructure.AWS.Interfaces;
+using ES.Infrastructure.ElasticSearch.Interfaces;
 using Microsoft.Extensions.Options;
 using Nest;
 using Nest.JsonNetSerializer;
@@ -10,14 +12,14 @@ using System.Linq;
 
 namespace ElasticsearchRecipes.Elastic
 {
-    public class ElasticConnectionProvider
+    public class ElasticConnectionProvider: IElasticConnectionProvider
     {
         private readonly ElasticSearchSettings _esSettings;
-        private readonly AWSConnectionProvider _awsProvider;
+        private readonly IAWSConnectionProvider _awsProvider;
 
         public ElasticConnectionProvider(
             IOptionsMonitor<ElasticSearchSettings> esSettings,
-            AWSConnectionProvider awsProvider)
+            IAWSConnectionProvider awsProvider)
         {
             _esSettings = esSettings.CurrentValue;
             _awsProvider = awsProvider;

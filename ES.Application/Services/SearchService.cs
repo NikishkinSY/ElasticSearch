@@ -9,6 +9,7 @@ using ES.Domain.Exceptions;
 using ES.Domain.Extensions;
 using ES.Infrastructure.ElasticSearch;
 using ES.Infrastructure.ElasticSearch.Extensions;
+using ES.Infrastructure.ElasticSearch.Interfaces;
 using Nest;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +20,11 @@ namespace ES.Application.Services
 {
     public class SearchService: ISearchService
     {
-        private readonly ElasticClient _elasticClient;
+        private readonly IElasticClient _elasticClient;
         private readonly IMapper _mapper;
 
         public SearchService(
-            ElasticClientProvider provider,
+            IElasticClientProvider provider,
             IMapper mapper)
         {
             _elasticClient = provider.Get();

@@ -14,7 +14,7 @@ namespace ES.Application.Services.Interfaces
 {
     public class IndexService: IIndexService
     {
-        private readonly ElasticClient _elasticClient;
+        private readonly IElasticClient _elasticClient;
 
         public IndexService(ElasticClientProvider _elasticClientProvider)
         {
