@@ -3,6 +3,7 @@ using ES.Application.ElasticSearch.CreateIndexExtensions;
 using ES.Application.ElasticSearch.Entities;
 using ES.Domain.Enums;
 using ES.Domain.Exceptions;
+using ES.Infrastructure.ElasticSearch;
 using Nest;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -15,10 +16,9 @@ namespace ES.Application.Services.Interfaces
     {
         private readonly ElasticClient _elasticClient;
 
-        public IndexService(ElasticConnectionProvider provider)
+        public IndexService(ElasticClientProvider _elasticClientProvider)
         {
-            var connection = provider.GetConnectionSettings();
-            _elasticClient = new ElasticClient(connection);
+            _elasticClient = _elasticClientProvider.Get();
         }
 
         public async Task<bool> CreateIndex(IndexType type, CancellationToken ct = default)

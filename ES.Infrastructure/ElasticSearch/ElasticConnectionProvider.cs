@@ -16,30 +16,30 @@ namespace ElasticsearchRecipes.Elastic
         private readonly AWSConnectionProvider _awsProvider;
 
         public ElasticConnectionProvider(
-            IOptions<ElasticSearchSettings> esSettings,
+            IOptionsMonitor<ElasticSearchSettings> esSettings,
             AWSConnectionProvider awsProvider)
         {
-            _esSettings = esSettings.Value;
+            _esSettings = esSettings.CurrentValue;
             _awsProvider = awsProvider;
         }
 
-        public ConnectionSettings GetConnectionSettings()
+        public ConnectionSettings CreateConnectionSettings()
         {
-            var httpConnection = _awsProvider.Get();
-            var pool = GetConnectionPool();
+            var httpConnection = _awsProvider.Create();
+            var pool = CreateConnectionPool();
             return new ConnectionSettings(pool, httpConnection,
                 sourceSerializer: (b, s) => new JsonNetSerializer(b, s,
                     () => new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All }));
         }
 
-        public ConnectionConfiguration GetConnectionConfiguration()
+        public ConnectionConfiguration CreateConnectionConfiguration()
         {
-            var httpConnection = _awsProvider.Get();
-            var pool = GetConnectionPool();
+            var httpConnection = _awsProvider.Create();
+            var pool = CreateConnectionPool();
             return new ConnectionConfiguration(pool, httpConnection);
         }
 
-        private StaticConnectionPool GetConnectionPool()
+        private IConnectionPool CreateConnectionPool()
         {
             return new StaticConnectionPool(_esSettings.Url.Split(',').Select(p => new Uri(p)));
         }

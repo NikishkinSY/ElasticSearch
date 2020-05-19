@@ -20,7 +20,7 @@ namespace ES.Infrastructure
                 {
                     ModifyConnectionSettings = conn =>
                     {
-                        return _elasticConnectionProvider.GetConnectionConfiguration();
+                        return _elasticConnectionProvider.CreateConnectionConfiguration();
                     },
                     IndexFormat = "{0:yyyy.MM}",
                 })

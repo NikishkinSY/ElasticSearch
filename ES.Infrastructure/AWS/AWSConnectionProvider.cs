@@ -13,12 +13,12 @@ namespace ES.Infrastructure.AWS
     {
         private AWSSettings _awsSettings { get; set; }
 
-        public AWSConnectionProvider(IOptions<AWSSettings> awsSettings)
+        public AWSConnectionProvider(IOptionsMonitor<AWSSettings> awsSettings)
         {
-            _awsSettings = awsSettings.Value;
+            _awsSettings = awsSettings.CurrentValue;
         }
 
-        public IConnection Get()
+        public IConnection Create()
         {
             var chain = new CredentialProfileStoreChain(_awsSettings.AWSProfilesLocation);
             if (chain.TryGetAWSCredentials(_awsSettings.AWSProfileName, out AWSCredentials awsCredentials))
