@@ -2,6 +2,7 @@ using AutoMapper;
 using ES.Application;
 using ES.Domain.Configuration;
 using ES.Infrastructure;
+using ES.Infrastructure.ElasticSearch.Interfaces;
 using ES.Infrastructure.Security;
 using ES.WebApi.Middlewares;
 using Microsoft.AspNetCore.Builder;
@@ -63,7 +64,7 @@ namespace DistanceBetweenAirports
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, SerilogConfiguration serilogConfiguration)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory, IElasticConnectionProvider elasticConnectionProvider)
         {
             if (env.IsDevelopment())
             {
@@ -83,7 +84,7 @@ namespace DistanceBetweenAirports
 
             //loggerFactory.AddFile("Logs/{Date}.txt");
             loggerFactory.AddSerilog();
-            serilogConfiguration.UseElasticSearch();
+            app.UseElasticSearch(elasticConnectionProvider, "{0:yyyy.MM}");
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>

@@ -1,9 +1,8 @@
-﻿using ElasticsearchRecipes.Elastic;
-using ES.Application.ElasticSearch.CreateIndexExtensions;
+﻿using ES.Application.ElasticSearch.CreateIndexExtensions;
 using ES.Application.ElasticSearch.Entities;
 using ES.Domain.Enums;
 using ES.Domain.Exceptions;
-using ES.Infrastructure.ElasticSearch;
+using ES.Infrastructure.ElasticSearch.Interfaces;
 using Nest;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -16,7 +15,7 @@ namespace ES.Application.Services.Interfaces
     {
         private readonly IElasticClient _elasticClient;
 
-        public IndexService(ElasticClientProvider _elasticClientProvider)
+        public IndexService(IElasticClientProvider _elasticClientProvider)
         {
             _elasticClient = _elasticClientProvider.Get();
         }

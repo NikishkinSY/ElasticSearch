@@ -13,7 +13,6 @@ namespace ES.Infrastructure
         {
             return services
                 .AddTransient<IAWSConnectionProvider, AWSConnectionProvider>()
-                .AddTransient<SerilogConfiguration>()
                 .AddTransient<IElasticConnectionProvider, ElasticConnectionProvider>()
                 .AddSingleton<IElasticClientProvider, ElasticClientProvider>();
         }
