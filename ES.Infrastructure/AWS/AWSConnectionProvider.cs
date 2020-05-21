@@ -14,9 +14,9 @@ namespace ES.Infrastructure.AWS
     {
         private AWSSettings _awsSettings { get; set; }
 
-        public AWSConnectionProvider(IOptionsMonitor<AWSSettings> awsSettings)
+        public AWSConnectionProvider(IOptionsSnapshot<AWSSettings> awsSettings)
         {
-            _awsSettings = awsSettings.CurrentValue;
+            _awsSettings = awsSettings.Value;
         }
 
         public IConnection Create()

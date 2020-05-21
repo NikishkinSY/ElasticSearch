@@ -18,10 +18,10 @@ namespace ElasticsearchRecipes.Elastic
         private readonly IAWSConnectionProvider _awsProvider;
 
         public ElasticConnectionProvider(
-            IOptionsMonitor<ElasticSearchSettings> esSettings,
+            IOptionsSnapshot<ElasticSearchSettings> esSettings,
             IAWSConnectionProvider awsProvider)
         {
-            _esSettings = esSettings.CurrentValue;
+            _esSettings = esSettings.Value;
             _awsProvider = awsProvider;
         }
 
