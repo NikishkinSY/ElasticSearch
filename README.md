@@ -1,6 +1,13 @@
 # ElasticSearch
 
 REST Service with best practice based on:
+- .Net Microservices (.Net Core 3.1 edition) (https://docs.microsoft.com/en-us/dotnet/architecture/microservices/)
+
+- Jason Taylor Clean Architecture (https://jasontaylor.dev/)
+
+
+
+Technologies:
 
 - .Net Core 3.1 
 
@@ -17,3 +24,5 @@ REST Service with best practice based on:
 - Docker support
 
 - Automapper
+
+Please like it if you found it helpful
